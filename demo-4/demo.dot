@@ -1,0 +1,19 @@
+digraph {
+	compound = "true"
+	newrank = "true"
+	subgraph "root" {
+		"[root] aws_instance.example" [label = "aws_instance.example", shape = "box"]
+		"[root] provider.aws" [label = "provider.aws", shape = "diamond"]
+		"[root] aws_instance.example" -> "[root] provider.aws"
+		"[root] aws_instance.example" -> "[root] var.AMIS"
+		"[root] meta.count-boundary (count boundary fixup)" -> "[root] output.ip"
+		"[root] output.ip" -> "[root] aws_instance.example"
+		"[root] provider.aws (close)" -> "[root] aws_instance.example"
+		"[root] provider.aws" -> "[root] var.AWS_REGION"
+		"[root] provisioner.local-exec (close)" -> "[root] aws_instance.example"
+		"[root] root" -> "[root] meta.count-boundary (count boundary fixup)"
+		"[root] root" -> "[root] provider.aws (close)"
+		"[root] root" -> "[root] provisioner.local-exec (close)"
+	}
+}
+
